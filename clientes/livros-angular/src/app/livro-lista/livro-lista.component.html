@@ -1,0 +1,31 @@
+<!-- livro-lista.component.html -->
+
+<main class="container mt-4">
+    <h2 class='my-3'>Catálogo de Livros</h2>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Título</th>
+          <th>Resumo</th>
+          <th>Editora</th>
+          <th>Autores</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Utilize a diretiva *ngFor para repetir a linha de dados (tr) para cada livro do vetor livros -->
+        <tr *ngFor="let livro of livros">
+          <td>{{ livro.titulo }} <br/>  <button class="btn btn-danger btn-sm" (click)="excluir(livro.codigo)">Excluir</button></td>
+          <td>{{ livro.resumo }}</td>
+          <td>{{ obterNome(livro.codEditora) }}</td>
+          <td>
+            <!-- Apresente os autores na forma de lista -->
+            <ul>
+              <!-- Repetição da tag li via diretiva *ngFor para exibir os autores -->
+              <li *ngFor="let autor of livro.autores">{{ autor }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  
