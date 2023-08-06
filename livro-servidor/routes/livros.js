@@ -1,5 +1,3 @@
-// routes/livros.js
-
 const express = require('express');
 const router = express.Router();
 const LivroDAO = require('../modelo/livro-dao');
@@ -16,13 +14,16 @@ router.get('/', async (req, res) => {
 
 // Rota para incluir um novo livro (modo POST)
 router.post('/', async (req, res) => {
-  try {
-    const livro = req.body;
-    await LivroDAO.incluir(livro);
+  // try {
+    // Omit the _id field from the request body
+    // const { _id, ...livroData } = req.body;
+    // console.log(req)
+    console.log(req.body)
+    await LivroDAO.incluir(req.body);
     res.json({ message: 'Livro incluído com sucesso.' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao incluir o livro.' });
-  }
+  // } catch (error) {
+  //   res.status(500).json({ message: 'Erro ao incluir o livro.' });
+  // }
 });
 
 // Rota para excluir um livro por código (_id) (modo DELETE)

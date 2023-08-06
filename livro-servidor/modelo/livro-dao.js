@@ -16,7 +16,7 @@ const incluir = async (livro) => {
   try {
     return await Livro.create(livro);
   } catch (error) {
-    throw new Error('Erro ao incluir o livro: ' + error.message);
+    throw new Error('Erro ao incluir o livro livro-dao: ' + error.message);
   }
 };
 
