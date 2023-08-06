@@ -1,3 +1,4 @@
+// clientes/livros-react/src/LivroLista.js
 import React, { useState, useEffect } from 'react';
 import ControleLivro from './controle/ControleLivros';
 import LinhaLivro from './components/LinhaLivro';
@@ -7,19 +8,27 @@ const LivroLista = () => {
   const [carregado, setCarregado] = useState(false);
   const controleLivro = new ControleLivro();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const obterLivros = async () => {
-      const listaLivros = controleLivro.obterLivros();
-      setLivros(listaLivros);
-      setCarregado(true);
+      try {
+        const listaLivros = await controleLivro.obterLivros();
+        setLivros(listaLivros);
+      } catch (error) {
+        console.error('Erro ao obter os livros:', error.message);
+      }
     };
 
     obterLivros();
   }, [carregado]);
 
-  const excluir = (codigo) => {
-    controleLivro.excluir(codigo);
-    setCarregado(false);
+  const excluir = async (codigo) => {
+    try {
+      await controleLivro.excluir(codigo);
+      setCarregado(false);
+    } catch (error) {
+      console.error('Erro ao excluir o livro:', error.message);
+    }
   };
 
   return (
@@ -32,11 +41,12 @@ const LivroLista = () => {
             <th>Resumo</th>
             <th>Editora</th>
             <th>Autores</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {livros.map((livro) => (
-            <LinhaLivro key={livro.codigo} livro={livro} excluir={excluir} />
+          {livros.map((livro, index) => (
+            <LinhaLivro key={index} livro={livro} excluir={excluir} />
           ))}
         </tbody>
       </table>

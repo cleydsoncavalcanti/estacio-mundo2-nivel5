@@ -9,7 +9,7 @@ const LinhaLivro = ({
   excluir,
 }: {
   livro: Livro;
-  excluir: (codigo: number) => void;
+  excluir: (codigo: string) => void;
 }) => {
   const controleEditora = new ControleEditora();
   const handleExcluirClick = () => {

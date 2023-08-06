@@ -6,7 +6,7 @@ import ControleLivros from '@/classes/controle/ControleLivros';
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'DELETE') {
     try {
-      const codigoLivro = Number(req.query.codigo);
+      const codigoLivro = String(req.query.codigo);
       const controleLivros = new ControleLivros();
       controleLivros.excluir(codigoLivro);
       res.status(200).json({ message: 'Livro excluído com sucesso' });

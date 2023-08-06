@@ -1,3 +1,4 @@
+// clientes/livros-react/src/LivroDados.js
 import React, { useState } from 'react';
 import ControleLivro from './controle/ControleLivros';
 import ControleEditora from './controle/ControleEditora';
@@ -7,39 +8,34 @@ const LivroDados = () => {
   const controleLivro = new ControleLivro();
   const controleEditora = new ControleEditora();
 
-  // Define the options for the editora combo (select)
   const opcoes = controleEditora.getEditoras().map((editora) => ({
     value: editora.codEditora,
     text: editora.nome,
   }));
 
-  // State for form fields
   const [titulo, setTitulo] = useState('');
   const [resumo, setResumo] = useState('');
   const [autores, setAutores] = useState('');
   const [codEditora, setCodEditora] = useState(opcoes[0].value);
 
-  // Navigate hook for navigation
   const navigate = useNavigate();
 
-  // Handle combo (select) change
   const tratarCombo = (event) => {
     const { value } = event.target;
     setCodEditora(Number(value));
   };
 
-  // Handle form submit for livro inclusion
-  const incluir = (event) => {
+  const incluir = async (event) => {
     event.preventDefault();
     const autoresArray = autores.split('\n');
     const livro = {
-      codigo: 0,
-      título: titulo,
+      codigo: '',
+      titulo: titulo,
       resumo: resumo,
       autores: autoresArray,
       codEditora: codEditora,
     };
-    controleLivro.incluir(livro);
+    await controleLivro.incluir(livro);
     navigate('/');
   };
 
