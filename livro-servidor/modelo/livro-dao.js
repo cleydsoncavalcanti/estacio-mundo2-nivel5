@@ -14,6 +14,7 @@ const obterLivros = async () => {
 // Função para incluir um novo livro
 const incluir = async (livroData) => {
   // try {
+    console.log('livroData',livroData)
   const livro = new Livro({
     _id: new mongoose.Types.ObjectId(), // Explicitly set _id as a new ObjectId
     ...livroData,

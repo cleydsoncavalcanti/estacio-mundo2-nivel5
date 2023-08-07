@@ -27,10 +27,9 @@ class ControleLivro {
 
   async incluir(livro: Livro): Promise<void> {
     try {
-      const livroMongo: LivroMongo = {
-        _id: '', // O _id será gerado pelo servidor
+      const livroMongo: any = {
         codEditora: livro.codEditora,
-        titulo: livro.título,
+        titulo: livro.titulo,
         resumo: livro.resumo,
         autores: livro.autores,
       };
