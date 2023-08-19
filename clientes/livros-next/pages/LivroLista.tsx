@@ -1,67 +1,55 @@
-// LivroLista.tsx
 import React, { useState, useEffect } from "react";
-import LinhaLivro from "@/componentes/LinhaLivro"; // Assuming LinhaLivro is in the 'components' folder
-import ControleLivro from "@/classes/controle/ControleLivros";
+import ControleLivros from "../classes/controle/ControleLivros";
+import LinhaLivro from "../componentes/LinhaLivro";
+import Livro from "../classes/modelo/Livro"; // Importe o modelo do Livro
 
-import Menu from "@/componentes/Menu";
-
-const LivroLista = () => {
-  const [livros, setLivros] = useState([
-    {
-      codigo: 0,
-      codEditora: 0,
-      título: "",
-      resumo: "",
-      autores: [""],
-    },
-  ]);
-  const [carregado, setCarregado] = useState(false);
-  const controleLivro = new ControleLivro();
+const Livros = () => {
+  const [livros, setLivros] = useState<Array<Livro>>([]); // Defina o tipo do estado como Array<Livro>
+  const controleLivro = new ControleLivros();
 
   useEffect(() => {
     const obterLivros = async () => {
-      const listaLivros = controleLivro.obterLivros();
-      setLivros(listaLivros);
-      setCarregado(true);
+      try {
+        const listaLivros = await controleLivro.obterLivros();
+        setLivros(listaLivros);
+      } catch (error) {
+        console.error("Erro ao obter os livros:", error);
+      }
     };
 
     obterLivros();
-  }, [carregado]);
+  }, []);
 
-  const handleExcluir = (codigo: number) => {
-    // Implement the logic to handle book deletion here
-    console.log(`Book with code ${codigo} will be deleted.`);
-    controleLivro.excluir(codigo);
-    setCarregado(false);
+  const excluir = async (codigo: string) => {
+    try {
+      await controleLivro.excluir(codigo);
+      const listaLivros = await controleLivro.obterLivros(); // Não é necessário definir uma função adicional aqui
+      setLivros(listaLivros);
+    } catch (error) {
+      console.error("Erro ao excluir o livro:", error);
+    }
   };
 
   return (
-    <>
-      <Menu />
-      <div className="container mt-3">
-        <h1>Catálogo de Livros</h1>
-        <table className="table table-striped">
-          <thead className="thead-dark">
-            <tr>
-              <th>Título</th>
-              <th>Resumo</th>
-              <th>Editora</th>
-              <th>Autores</th>
-            </tr>
-          </thead>
-          <tbody>
-            {livros.map((livro) => (
-              <LinhaLivro
-                key={livro.codigo}
-                livro={livro}
-                excluir={() => handleExcluir(livro.codigo)}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <main className="container mt-3">
+      <h1 className="my-3">Catálogo de Livros</h1>
+      <table className="table table-striped">
+        <thead className="thead-dark">
+          <tr>
+            <th>Título</th>
+            <th>Resumo</th>
+            <th>Editora</th>
+            <th>Autores</th>
+          </tr>
+        </thead>
+        <tbody>
+          {livros.map((livro) => (
+            <LinhaLivro key={livro.codigo} livro={livro} excluir={excluir} />
+          ))}
+        </tbody>
+      </table>
+    </main>
   );
 };
 
-export default LivroLista;
+export default Livros;
