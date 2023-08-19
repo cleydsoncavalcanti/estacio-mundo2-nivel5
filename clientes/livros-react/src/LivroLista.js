@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ControleLivro from './controle/ControleLivros';
 import LinhaLivro from './components/LinhaLivro';
 
+
 const LivroLista = () => {
   const [livros, setLivros] = useState([]);
   const [carregado, setCarregado] = useState(false);
@@ -25,10 +26,22 @@ const LivroLista = () => {
   const excluir = async (codigo) => {
     try {
       await controleLivro.excluir(codigo);
+      const obterLivros = async () => {
+        try {
+          const listaLivros = await controleLivro.obterLivros();
+          setLivros(listaLivros);
+        } catch (error) {
+          console.error('Erro ao obter os livros:', error.message);
+        }
+      };
+
+      obterLivros();
+
       setCarregado(false);
     } catch (error) {
       console.error('Erro ao excluir o livro:', error.message);
     }
+    controleLivro.obterLivros();
   };
 
   return (
@@ -41,7 +54,6 @@ const LivroLista = () => {
             <th>Resumo</th>
             <th>Editora</th>
             <th>Autores</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>

@@ -16,7 +16,7 @@ class ControleLivro {
           livroMongo.codEditora,
           livroMongo.titulo,
           livroMongo.resumo,
-          livroMongo.autores
+          livroMongo.autores,{codEditora:1,nome:'Flor'}
         );
       });
       return livros;
