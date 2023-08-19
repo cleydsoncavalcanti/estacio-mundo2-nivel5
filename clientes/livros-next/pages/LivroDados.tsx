@@ -1,11 +1,10 @@
-// clientes/livros-next/pages/LivroDados.tsx
-
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import ControleLivros from "../classes/controle/ControleLivros";
 import ControleEditora from "../classes/controle/ControleEditora";
 import { useRouter } from "next/router";
 
 const NovoLivro = () => {
+  const router = useRouter();
   const controleLivro = new ControleLivros();
   const controleEditora = new ControleEditora();
 
@@ -19,14 +18,12 @@ const NovoLivro = () => {
   const [autores, setAutores] = useState("");
   const [codEditora, setCodEditora] = useState(opcoes[0].value);
 
-  const navigate = useNavigate();
-
-  const tratarCombo = (event) => {
+  const tratarCombo = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     setCodEditora(Number(value));
   };
 
-  const incluir = async (event) => {
+  const incluir = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const autoresArray = autores.split("\n");
     const livro = {
@@ -37,7 +34,7 @@ const NovoLivro = () => {
       codEditora: codEditora,
     };
     await controleLivro.incluir(livro);
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -51,7 +48,9 @@ const NovoLivro = () => {
             className="form-control"
             id="titulo"
             value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTitulo(e.target.value)
+            }
           />
         </div>
         <div className="form-group">
@@ -61,7 +60,9 @@ const NovoLivro = () => {
             className="form-control"
             id="resumo"
             value={resumo}
-            onChange={(e) => setResumo(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setResumo(e.target.value)
+            }
           />
         </div>
         <div className="form-group">
@@ -70,7 +71,9 @@ const NovoLivro = () => {
             className="form-control"
             id="autores"
             value={autores}
-            onChange={(e) => setAutores(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              setAutores(e.target.value)
+            }
           />
         </div>
         <div className="form-group">

@@ -1,5 +1,5 @@
-import React from 'react';
-import ControleEditora from '../classes/controle/ControleEditora';
+import React from "react";
+import ControleEditora from "../classes/controle/ControleEditora";
 
 // Defina os tipos das props aqui
 interface LinhaLivroProps {
@@ -19,17 +19,17 @@ const LinhaLivro: React.FC<LinhaLivroProps> = ({ livro, excluir }) => {
 
   return (
     <tr>
-      <td className="mx-2 my-3 px-3 d-flex flex-column">
-        <a href={'/livro/' + livro.codigo}>
+      <td className="mx-2 my-3 px-3">
+        <div className="d-flex flex-column">
           {livro.titulo}
-        </a>
-        <button
-          className="btn btn-danger"
-          onClick={() => excluir(livro.codigo)}
-          style={{ maxWidth: '100px' }}
-        >
-          Excluir
-        </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => excluir(livro.codigo)}
+            style={{ maxWidth: "100px" }}
+          >
+            Excluir
+          </button>
+        </div>
       </td>
       <td className="mx-2 my-3 px-3">{livro.resumo}</td>
       <td className="mx-2 my-3 px-3">{nomeEditora}</td>
